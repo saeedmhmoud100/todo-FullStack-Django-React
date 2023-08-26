@@ -26,15 +26,21 @@ class ListsSerializer(serializers.ModelSerializer):
         return data
 
 
-class ListTasksSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ListModel.tasks
-        fields = '__all__'
-        exclude = []
-
-
-
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = TaskModel
         exclude = []
+
+class ListTasksSerializer(serializers.ModelSerializer):
+    tasks=TaskSerializer(many=True)
+    class Meta:
+        model = ListModel
+        fields = '__all__'
+        exclude = []
+
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['tasks'] = data.pop('tasks')
+        return data
+
