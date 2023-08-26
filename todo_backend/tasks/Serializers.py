@@ -24,6 +24,10 @@ class ListsSerializer(serializers.ModelSerializer):
         data['list_details_url'] = data.pop('list_details_url')
         return data
 
+
+
+
+
 class TasksForListSerializer(serializers.ModelSerializer):
     # track_listing = serializers.HyperlinkedIdentityField(view_name='task_details',lookup_field='id',)
 
@@ -65,6 +69,8 @@ class ListTasksSerializer(serializers.ModelSerializer):
         return data
 
 
+
+
 class relatedListForTaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = ListModel
@@ -85,6 +91,8 @@ class relatedListForTaskSerializer(serializers.ModelSerializer):
         data = super().to_representation(instance)
         data['list_url'] = data.pop('list_url')
         return data
+
+
 
 
 
