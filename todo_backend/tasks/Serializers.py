@@ -33,7 +33,7 @@ class TasksForListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TaskModel
-        exclude = []
+        exclude = ['related_list']
 
 
     task_details_url = serializers.SerializerMethodField()
@@ -97,8 +97,6 @@ class relatedListForTaskSerializer(serializers.ModelSerializer):
 
 
 class TaskSerializer(serializers.ModelSerializer):
-    related_list = relatedListForTaskSerializer()
-
     class Meta:
         model = TaskModel
         fields = '__all__'
@@ -106,6 +104,5 @@ class TaskSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
-        data['related_list'] = data.pop('related_list')
+        data.pop('related_list')
         return data
-
