@@ -5,15 +5,14 @@ from tasks.models import ListModel, TaskModel
 
 
 class ListsSerializer(serializers.ModelSerializer):
-    # track_listing = serializers.HyperlinkedIdentityField(view_name='list_all_tasks',lookup_field='slug',)
     class Meta:
         model = ListModel
         fields = '__all__'
         exclude = []
 
-    track_listing = serializers.SerializerMethodField()
+    list_details_url = serializers.SerializerMethodField()
 
-    def get_track_listing(self, obj):
+    def get_list_details_url(self, obj):
         request = self.context.get('request')
         if request is not None:
             track_listing_url = request.build_absolute_uri(reverse('list_all_tasks', args=[obj.slug]))
@@ -22,23 +21,45 @@ class ListsSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
-        data['track_listing'] = data.pop('track_listing')
+        data['list_details_url'] = data.pop('list_details_url')
         return data
 
 
 class TaskSerializer(serializers.ModelSerializer):
+    # track_listing = serializers.HyperlinkedIdentityField(view_name='task_details',lookup_field='id',)
+
     class Meta:
         model = TaskModel
         exclude = []
 
+
+    task_details_url = serializers.SerializerMethodField()
+
+    def get_task_details_url(self, obj):
+        request = self.context.get('request')
+        if request is not None:
+            track_listing_url = request.build_absolute_uri(reverse('task_details', args=[obj.related_list.slug,obj.pk]))
+            return track_listing_url
+        return None
+
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['task_details_url'] = data.pop('task_details_url')
+        return data
+
+
+
+
+
 class ListTasksSerializer(serializers.ModelSerializer):
-    tasks=TaskSerializer(many=True)
     class Meta:
         model = ListModel
         fields = '__all__'
         exclude = []
 
 
+    tasks=TaskSerializer(many=True)
     def to_representation(self, instance):
         data = super().to_representation(instance)
         data['tasks'] = data.pop('tasks')
