@@ -16,8 +16,9 @@ Including another URLconf
 """
 from django.urls import path
 
-from tasks.views import list_view
+from tasks.views import all_list_view, list_tasks_view
 
 urlpatterns = [
-    path('list/', list_view),
+    path('list/', all_list_view),
+    path('list/<slug:slug>/', list_tasks_view, name='list_all_tasks'),
 ]

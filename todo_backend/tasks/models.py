@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 from django.utils.timezone import now
 
 
@@ -16,7 +17,11 @@ class Utilitys(models.Model):
 
 
 class ListModel(Utilitys):
-    pass
+    slug = models.CharField(unique=True,default='',max_length=30,null=True,blank=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        return super().save(*args, **kwargs)
 
 
 class TaskModel(Utilitys):

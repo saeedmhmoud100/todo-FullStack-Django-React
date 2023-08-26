@@ -7,7 +7,7 @@ from tasks.models import ListModel, TaskModel
 
 @admin.register(ListModel)
 class ListModelAdmin(admin.ModelAdmin):
-    pass
+    exclude = ['slug']
 
 
 @admin.register(TaskModel)
