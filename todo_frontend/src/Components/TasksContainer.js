@@ -3,10 +3,6 @@ import AddTask from "./AddTask";
 import TaskItem from "./TaskItem";
 import {
     useQuery,
-    useMutation,
-    useQueryClient,
-    QueryClient,
-    QueryClientProvider,
 } from '@tanstack/react-query'
 import axios from "axios";
 import {Spinner} from "react-bootstrap";
@@ -20,7 +16,6 @@ const TasksContainer = () => {
                 (res) => res.data
             ),
     })
-
     const [Data,setData] = useState([])
 
     useEffect(_=>{
