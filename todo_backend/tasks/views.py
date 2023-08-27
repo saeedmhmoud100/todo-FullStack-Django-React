@@ -8,14 +8,14 @@ from tasks.models import TaskModel
 
 @api_view(['GET','POST'])
 def all_tasks_view(request):
+    tasks = TaskSerializer(TaskModel.objects.all().order_by('-isDone'),many=True,context={'request': request})
     if(request.method=='GET'):
-        tasks = TaskSerializer(TaskModel.objects.all(),many=True,context={'request': request})
         return Response(tasks.data)
     elif request.method == 'POST':
         serializer = TaskSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(tasks.data, status=status.HTTP_201_CREATED)
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET','DELETE',"PUT","PATCH"])
