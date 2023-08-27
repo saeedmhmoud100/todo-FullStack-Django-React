@@ -18,17 +18,23 @@ def all_tasks_view(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['GET','DELETE'])
+@api_view(['GET','DELETE',"PUT","PATCH"])
 def task_details_view(request,pk):
     try:
         task = TaskModel.objects.get(pk=pk)
         if(request.method=='GET'):
-             # Retrieve a single instance using the primary key
                 serializer = TaskSerializer(task, context={'request': request})
                 return Response(serializer.data)
         elif(request.method=="DELETE"):
             task.delete()
             return Response({'status': "deleted"}, status=status.HTTP_200_OK)
+        elif(request.method == "PUT" or request.method=="PATCH"):
+            serializer = TaskSerializer(task,data=request.data, context={'request': request})
+            if(serializer.is_valid()):
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
     except TaskModel.DoesNotExist:
         return Response({'status':"not found"},status=status.HTTP_404_NOT_FOUND)
 
