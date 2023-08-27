@@ -1,9 +1,10 @@
 import './App.css';
 import axios from "axios";
+import TasksContainer from "./Components/TasksContainer";
 
 function App() {
 
-    const data = axios.get('http://localhost:8000/list/').then(res =>{
+    const data = axios.get('http://localhost:8000/tasks/').then(res =>{
 
         console.log(res)
     }).catch(error => {
@@ -13,7 +14,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-
+            <TasksContainer />
       </header>
     </div>
   );
