@@ -1,7 +1,7 @@
 import React from 'react';
 import deleteIcon from "../delete.png"
 
-const TaksItem = () => {
+const TaskItem = () => {
     return (
         <div style={{width:'calc(100% - 20px',backgroundColor:"white",borderRadius:"5px",height:"45px",flexShrink:"0"}} className={'d-flex justify-content-between px-2 align-items-center'}>
             <div>
@@ -13,4 +13,4 @@ const TaksItem = () => {
     );
 };
 
-export default TaksItem;
+export default TaskItem;
