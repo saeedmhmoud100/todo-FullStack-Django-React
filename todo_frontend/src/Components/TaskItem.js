@@ -9,9 +9,9 @@ const TaskItem = ({item}) => {
     }
 
     const handleDelete = e =>{
-        axios.delete(`http://localhost:8000/tasks/${itemData.id}`,).then(res => {
+        axios.delete(`http://localhost:8000/tasks/${itemData.id}`).then(res => {
             setItemData(res.data)
-            console.log(res)
+            // console.log(res)
         })
     }
 
